@@ -1,51 +1,41 @@
-import { Box, Typography, Button } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import { Box, Button, Select, Typography } from "@mui/material";
+import React, { useState } from "react";
 
 const Selectele = () => {
+  const [select, setSelect] = useState<any[]>([]);
+
   let data = [
-    { id: 1, name: "Rohit" },
-    { id: 2, name: "Amar" },
-    { id: 3, name: "Chandan" },
+    { id: 1, name: "Delhi" },
+    { id: 2, name: "Kolkata" },
+    { id: 3, name: "Mohali" },
     { id: 4, name: "Hyderabad" },
     { id: 5, name: "Pune" },
     { id: 6, name: "Chennai" },
     { id: 7, name: "Banglore" },
     { id: 8, name: "Patna" },
   ];
+  const handleManullySelect = (idx: any) => {
+    const selectValue = data.filter((item, id) => item.id === idx)[0];
 
-  const [selected, setSelected] = useState<any[]>([]);
-  const [initialSelect, setInitialSelect] = useState<boolean>(true);
-
-  const handleMannuallySelect = (idx: number) => {
-    let selectelement = data.filter((item, index) => item.id === idx)[0];
-    const isSelected = selected.some(
-      (item, index) => item.id === selectelement.id
-    );
-
+    const isSelected = select.some((item, index) => item.id === selectValue.id);
     if (isSelected) {
-      let unSelectelement = selected.filter(
-        (item, index) => item.id !== selectelement.id
+      let unSelectValue = select.filter(
+        (item, index) => item.id !== selectValue.id
       );
-      setSelected(unSelectelement);
-    } else {
-      setInitialSelect(false);
-      setSelected([...selected, selectelement]);
-      console.log("selected---manually", [...selected, selectelement]);
-    }
+      setSelect(unSelectValue);
+    } else setSelect([...select, selectValue]);
+    console.log("select---", select);
   };
 
-  const handleMapElement = (item: any) => {
+  const handleMapData = (item: any) => {
     return (
-      <Box key={item.id} sx={styles.maplist}>
+      <Box style={{ width: "80%", margin: "30px auto" }}>
         <Button
-          onClick={() => handleMannuallySelect(item.id)}
-          sx={{
-            backgroundColor: selected.some((elem) => elem.id === item.id)
+          onClick={() => handleManullySelect(item.id)}
+          style={{
+            backgroundColor: select.some((ele, id) => ele.id === item.id)
               ? "red"
               : "white",
-            "&:hover": {
-              backgroundColor: "inherit",
-            },
           }}
         >
           {item.name}
@@ -54,42 +44,23 @@ const Selectele = () => {
     );
   };
 
-  const handleSelect = () => {
-    setSelected(data);
-    setInitialSelect(false);
+  const handleAllSelect = () => {
+    setSelect([...data]);
+    console.log("select---", select);
   };
 
-  const handleUnSelect = () => {
-    setSelected([]);
+  const handleAllUnSelect = () => {
+    setSelect([]);
+    console.log("select---", select);
   };
-
-  useEffect(() => {
-    if (!initialSelect) {
-      console.log("selected---All", selected);
-    }
-  }, [selected, initialSelect]);
-
   return (
-    <Box>
-      <Typography>Carousel</Typography>
-      {data.map((item) => handleMapElement(item))}
+    <Box style={{ width: "80%", margin: "30px auto" }}>
+      <Typography>Select</Typography>
+      {data.map((item) => handleMapData(item))}
 
-      <Box>
-        <Button onClick={handleSelect}>All Select</Button>
-
-        <Button onClick={handleUnSelect}>All UnSelect</Button>
-      </Box>
+      <Button onClick={handleAllSelect}>All Select</Button>
+      <Button onClick={handleAllUnSelect}>All UnSelect</Button>
     </Box>
   );
 };
-
 export default Selectele;
-
-const styles = {
-  maplist: {
-    width: "400px",
-    padding: "10px",
-    margin: "10px auto",
-    color: "grey",
-  },
-};

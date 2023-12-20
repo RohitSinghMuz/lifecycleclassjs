@@ -1,10 +1,11 @@
 import React from "react";
-import Stopwatch from "./component/Stopwatch";
+import Selectele from "./component/Selectele";
+import { Typography } from "@mui/material";
 
 const App = () => {
   return (
     <>
-      <Stopwatch />
+      <Selectele />
     </>
   );
 };

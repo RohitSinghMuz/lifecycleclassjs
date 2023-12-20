@@ -1,38 +1,36 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-const Willunmounttestfun = () => {
+const Stopwatch = () => {
   const [count, setCount] = useState(0);
-  const [isRunning, setisRunning] = useState(false);
+  const [iseRunning, setIseRunning] = useState(false);
 
   const handleStart = () => {
-    setisRunning(true);
+    setIseRunning(true);
   };
-
   const handleStop = () => {
-    setisRunning(false);
+    setIseRunning(false);
   };
-
   const handleReset = () => {
-    setisRunning(true);
+    setIseRunning(false);
     setCount(0);
   };
 
   useEffect(() => {
     let interval: any;
-    if (isRunning) {
+    if (iseRunning) {
       interval = setInterval(() => {
         setCount((count) => count + 1);
       }, 1000);
     } else {
       clearInterval(interval);
     }
-
     return () => clearInterval(interval);
-  }, [isRunning, count]);
+  }, [iseRunning, count]);
+
   return (
-    <Box>
-      <Typography>Unmount fun {count}</Typography>
+    <Box sx={{ width: "600px", margin: "30px auto" }}>
+      <Typography>StopWatch {count}</Typography>
 
       <Button onClick={handleStart}>Start</Button>
       <Button onClick={handleStop}>Stop</Button>
@@ -40,5 +38,4 @@ const Willunmounttestfun = () => {
     </Box>
   );
 };
-
-export default Willunmounttestfun;
+export default Stopwatch;
